@@ -4,6 +4,9 @@
 # Byte-compiled / optimized / DLL files
 *.class
 
+# Clover related files
+.clover
+
 # Archives and Logs
 *nohup*
 *.tar.gz

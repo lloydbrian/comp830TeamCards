@@ -14,11 +14,58 @@ public class CustomerAccount {
 		// create empty CustomerAccount
 	}
 	
+	/**
+	 * @return the custName
+	 */
+	public String getCustName() {
+		return custName;
+	}
+
+	/**
+	 * @param custName the custName to set
+	 */
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
+
+	/**
+	 * @return the custPhone
+	 */
+	public String getCustPhone() {
+		return custPhone;
+	}
+
+	/**
+	 * @param custPhone the custPhone to set
+	 */
+	public void setCustPhone(String custPhone) {
+		this.custPhone = custPhone;
+	}
+
+	/**
+	 * @return the custAcctNumber
+	 */
+	public String getCustAcctNumber() {
+		return custAcctNumber;
+	}
+
+	/**
+	 * @param custAcctNumber the custAcctNumber to set
+	 */
+	public void setCustAcctNumber(String custAcctNumber) {
+		this.custAcctNumber = custAcctNumber;
+	}
+
 	public CustomerAccount createNewAccount(String name, String phone) throws SQLException, NoAccountCreatedException {
-		CustomerAccount newAcct = null;
+		/*
+		 *  Updated from: 
+		 *  CustomerAccount newAcct = null;
+		 *  FixID: TestCase01
+		 */
+		CustomerAccount newAcct = new CustomerAccount();
+		CustomerAccountDAO cad = new CustomerAccountDAO();
 		String acctNum = "";
 		
-		CustomerAccountDAO cad = new CustomerAccountDAO();
 		try {
 			acctNum = cad.newAcctNumber(name, phone);
 		} catch (SQLException se) {
@@ -30,17 +77,23 @@ public class CustomerAccount {
 			}
 		}
 		
-		custName = name;
-		custPhone = phone;
-		custAcctNumber = acctNum;
+		/* Updated from:
+		 * custName = name;
+		 * custPhone = phone;
+		 * custAcctNumber = acctNum;
+		 * FixID: TestCase01
+		 */
+		newAcct.setCustAcctNumber(acctNum);
+		newAcct.setCustName(name);
+		newAcct.setCustPhone(phone);
 		
 		try {
 			cad.saveAccount(this);
 		} catch (SQLException se2) {
 			if (se2.getErrorCode() != 803) 
 				throw new NoAccountCreatedException(String.format("Account for %s at %s not created with account number %s", name, phone, acctNum));
+			
 		}
-		
 		return newAcct;
 	}
 	
@@ -55,7 +108,9 @@ public class CustomerAccount {
 			throw new NoSuchCustomerAccountException(String.format("No customer record with acctount number %s ", acctNum));
 		}
 		
-		return null;
+		// Updated from return null
+		// FixID: TestCase02
+		return this;
 	}
 
 }
