@@ -1,0 +1,26 @@
+# User-specific configuration
+*.classpath
+
+# Byte-compiled / optimized / DLL files
+*.class
+
+# Archives and Logs
+*nohup*
+*.tar.gz
+*.gz
+*.zip
+*.key
+*.jar
+*.ear
+*.log
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Mac DS_Store files
+.DS_Store
+/bin/
