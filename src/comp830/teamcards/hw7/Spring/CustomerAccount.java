@@ -102,15 +102,15 @@ public class CustomerAccount {
 		String origCustName = this.custName;
 		
 		try {
-			custName = name;
 			cad.updateAccount(this);
 		} catch (SQLException se) {
-			// failure in update, needs an object update.
-			custName = origCustName;
 			// unable to find the record to be updated
 			throw new NoSuchCustomerAccountException(String.format("No customer record with acctount number %s ", acctNum));
 		}
-		
+
+		// successful run needs an update on the object custName
+		custName = name;
+
 		// Updated from return null
 		// FixID: TestCase02
 		return this;
