@@ -14,6 +14,12 @@ public class CustomerAccount {
 		// create empty CustomerAccount
 	}
 	
+	// overloaded constructor
+	public CustomerAccount(String custName, String custPhone) {
+		this.custName = custName;
+		this.custPhone = custPhone;
+	}
+	
 	/**
 	 * @return the custName
 	 */

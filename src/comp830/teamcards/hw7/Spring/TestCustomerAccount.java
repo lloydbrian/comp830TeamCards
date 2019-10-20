@@ -113,12 +113,42 @@ class TestCustomerAccount {
 		try {
 			when((custAcctMock)
 					.createNewAccount(gofJohn[0], gofJohn[1]))
-					.thenThrow(new NoAccountCreatedException(gofJohn[0] + " not created."));
+						.thenThrow(new NoAccountCreatedException(gofJohn[0] + " not created."));
 			custAcctMock.createNewAccount(gofJohn[0], gofJohn[1]);
 		} catch (NoAccountCreatedException e) {
 			assertTrue(e != null);
 		} catch (SQLException sE) {
 			fail("SQLException is thrown instead of NoAccountCreatedException");
+		}
+	}
+
+	@Test
+	@DisplayName("TestCase05: Test exception handling for NoSuchCustomerAccountException")
+	void testCase05() {
+		String updateName = "Surya";
+		String eMessage ="Update did not proceed";
+		CustomerAccount acctRichard = new CustomerAccount();
+		
+		try {
+
+			when((custAcctMock).createNewAccount(gofRichard[0], gofRichard[1]))
+				.thenReturn(acctRichard.createNewAccount(gofRichard[0], gofRichard[1]));
+
+			when((custAcctMock).updateCustomerName(acctRichard.getCustAcctNumber(), updateName))
+				.thenThrow(new NoSuchCustomerAccountException(eMessage));
+			
+			custAcctMock.createNewAccount(gofRichard[0], gofRichard[1]);
+			custAcctMock.updateCustomerName(acctRichard.getCustAcctNumber(), updateName);
+			
+		} catch (NoSuchCustomerAccountException e) {
+			assertAll("Exception Check TestCase05: ",
+					() -> assertTrue(e != null),
+					() -> assertEquals(eMessage, e.getExceptionMessage()));
+			
+		} catch (NoAccountCreatedException nSCA) {
+			fail("NoAccountCreatedException is thrown instead of NoSuchCustomerAccountException");
+		} catch (SQLException sE) {
+			fail("SQLException is thrown instead of NoSuchCustomerAccountException");
 		}
 	}
 
