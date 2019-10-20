@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
 
 import comp830.teamcards.hw7.Spring.*;
 
@@ -114,6 +115,7 @@ class TestCustomerAccount {
 			when((custAcctMock)
 					.createNewAccount(gofJohn[0], gofJohn[1]))
 						.thenThrow(new NoAccountCreatedException(gofJohn[0] + " not created."));
+			
 			custAcctMock.createNewAccount(gofJohn[0], gofJohn[1]);
 		} catch (NoAccountCreatedException e) {
 			assertTrue(e != null);
@@ -152,5 +154,96 @@ class TestCustomerAccount {
 		}
 	}
 
+	@Test
+	@DisplayName("TestCase06: Test deleteCustomerAccount.")
+	void testCase06() throws SQLException, NoAccountCreatedException, NoSuchCustomerAccountException  {
+		
+		CustomerAccount custA = custAcct.createNewAccount(gofErich[0], gofErich[1]);
+		
+		assertAll("deleteCustomerAccount: ",
+				() -> assertEquals(custA.deleteCustomerAccount(custA) instanceof CustomerAccount, true)
+		);		
+		
+	}
+
+	
+	@Test
+	@DisplayName("TestCase07: Test deleteCustomerAccount method")
+	void testCase07() {
+		
+		boolean status = true;
+		
+		try {
+			custAcct.createNewAccount(gofErich[0], gofErich[1]);
+			when(custDAOMock.deleteAccount(custAcct))
+				.thenReturn(false)
+				.thenThrow(new SQLException());
+			
+			status = custDAOMock.deleteAccount(custAcct);
+			custAcct.deleteCustomerAccount(custAcct);
+			assertEquals(!status, true);
+			
+		} catch (NoSuchCustomerAccountException e) {
+			fail("NoSuchCustomerAccountException is thrown instead of SQLException");
+		} catch (NoAccountCreatedException nSCA) {
+			fail("NoAccountCreatedException is thrown instead of NoSuchCustomerAccountException");
+		} catch (SQLException sE) {
+			assertAll("Exception Check TestCase06: ",
+					() -> assertTrue(sE != null));
+		}
+	}
+
+	@Test
+	@DisplayName("TestCase08: Test getCustomerAccount.")
+	void testCase08() throws SQLException, NoAccountCreatedException, NoSuchCustomerAccountException  {
+		
+		CustomerAccount custA = custAcct.createNewAccount(gofJohn[0], gofJohn[1]);
+		CustomerAccount custGet = custA.getCustomerAccount(custA.getCustAcctNumber());
+		
+		assertAll("getCustomerAccount: ",
+				() -> assertEquals(custGet, null)
+		);		
+		
+	}
+
+	@Test
+	@DisplayName("TestCase09: Test getCustomerAccount to throw")
+	void testCase09() throws SQLException, NoAccountCreatedException, NoSuchCustomerAccountException  {
+		
+		String acctNum = "1123231231";
+		custAcctMock.createNewAccount(gofJohn[0], gofJohn[1]);
+		
+		when(custDAOMock.getAccount(acctNum))
+			.thenThrow(new SQLException());
+		
+		try {
+			custAcctMock.getCustomerAccount(acctNum);
+		} catch (NoSuchCustomerAccountException sE) {
+			assertAll("getCustomerAccount: ",
+					() -> assertTrue(sE != null)
+			);					
+		}
+		
+		
+	}
+
+	
+	@Test
+	@DisplayName("TestCase10: Test getCustomerAccount to throw")
+	void testCase10() throws SQLException, NoAccountCreatedException, NoSuchCustomerAccountException  {
+		
+		String acctNum = "1123231231";
+		
+		when(custDAOMock.getAccount(acctNum)).thenThrow(new SQLException());
+		
+		try {
+			custDAOMock.getAccount(acctNum);
+		} catch (SQLException s) {
+			System.out.println("Hello");
+		}
+		
+		
+	}
+	
 	
 }

@@ -99,11 +99,14 @@ public class CustomerAccount {
 	
 	public CustomerAccount updateCustomerName(String acctNum, String name) throws NoSuchCustomerAccountException {
 		CustomerAccountDAO cad = new CustomerAccountDAO();
+		String origCustName = this.custName;
 		
 		try {
 			custName = name;
 			cad.updateAccount(this);
 		} catch (SQLException se) {
+			// failure in update, needs an object update.
+			custName = origCustName;
 			// unable to find the record to be updated
 			throw new NoSuchCustomerAccountException(String.format("No customer record with acctount number %s ", acctNum));
 		}
@@ -112,5 +115,36 @@ public class CustomerAccount {
 		// FixID: TestCase02
 		return this;
 	}
+	
+	public CustomerAccount getCustomerAccount(String acctNum) throws NoSuchCustomerAccountException {
+		CustomerAccount cAcct;
+		CustomerAccountDAO cad = new CustomerAccountDAO();
+		
+		try {
+			cAcct = cad.getAccount(acctNum);
+		} catch (SQLException sE) {
+			throw new NoSuchCustomerAccountException(String.format("No such account exists for %s", acctNum));
+		}
+		
+		return cAcct;
+		
+	}
+
+	
+	public CustomerAccount deleteCustomerAccount(CustomerAccount ca) throws NoSuchCustomerAccountException {
+		CustomerAccountDAO cad = new CustomerAccountDAO();
+		CustomerAccount newAcct = new CustomerAccount();
+		newAcct = ca;
+		
+		try {
+			cad.deleteAccount(newAcct);
+		} catch (SQLException se) {
+			// unable to find the record to be deleted
+			throw new NoSuchCustomerAccountException(String.format("No customer record with customer name %s ", ca.getCustName()));
+		}
+		
+		return ca;
+	}
+
 
 }
