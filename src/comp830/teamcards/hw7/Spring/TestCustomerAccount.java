@@ -30,8 +30,6 @@ class TestCustomerAccount {
 	private final String[] gofRalph = {"Ralph Johsnon", "3334445555"};
 	private final String[] gofJohn = {"John Vlissides", "4445556666"};
 	
-	
-	
 	CustomerAccount custAcct;
 	CustomerAccount custAcctMock;
 	CustomerAccountDAO custDAOMock;
