@@ -4,6 +4,14 @@ import java.sql.SQLException;
 
 // Uses the CustomerAccountDAO to save to the database
 
+/**
+ * 
+ * @updated
+ * Lloyd Dagoc 2019
+ * Surya Kranthi 2019
+ * Valerie Therrien 2019
+ *
+ */
 public class CustomerAccount {
 	
 	private String custName;

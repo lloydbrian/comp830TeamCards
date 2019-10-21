@@ -7,23 +7,20 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.Mockito.*;
-
-import org.junit.Rule;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.InjectMocks;
 
 import comp830.teamcards.hw7.Spring.*;
 
 import java.sql.SQLException;
 
 /**
- * @author lloydbriantech 2019
+ * @author 
+ * Lloyd Dagoc 2019
+ * Surya Kranthi 2019
+ * Valerie Therrien 2019
  *
  */
 class TestCustomerAccount {
