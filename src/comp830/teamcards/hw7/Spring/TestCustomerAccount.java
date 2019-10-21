@@ -224,6 +224,7 @@ class TestCustomerAccount {
 			);					
 		}
 		
+		verify(custAcctMock).getCustomerAccount(acctNum);
 		
 	}
 
@@ -236,10 +237,11 @@ class TestCustomerAccount {
 		
 		when(custDAOMock.getAccount(acctNum)).thenThrow(new SQLException());
 		
+		
 		try {
 			custDAOMock.getAccount(acctNum);
 		} catch (SQLException s) {
-			System.out.println("Hello");
+			assertEquals(s instanceof SQLException, true);
 		}
 		
 		
