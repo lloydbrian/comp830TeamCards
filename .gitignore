@@ -1,8 +1,8 @@
-# User-specific configuration
-*.classpath
-
 # Byte-compiled / optimized / DLL files
 *.class
+
+# Maven generated files/binaries
+target/
 
 # Clover related files
 .clover
