@@ -23,7 +23,7 @@ import java.sql.SQLException;
  * Valerie Therrien 2019
  *
  */
-class TestCustomerAccount {
+class CustomerAccountTest {
 
 	private final String[] gofErich = {"Erich Gamma", "1112223333"};
 	private final String[] gofRichard = {"Richard Helm", "2223334444"};
