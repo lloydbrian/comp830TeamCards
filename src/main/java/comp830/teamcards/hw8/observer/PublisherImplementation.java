@@ -4,6 +4,7 @@
 package comp830.teamcards.hw8.observer;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +17,8 @@ import java.util.ArrayList;
  */
 public class PublisherImplementation implements PublisherInterface {
 
+	private final int ITERATIONS = 200;
+	private final int MAX_RANDOMIZATION = 5000;
 	private List<ObserverCustom> subscribers;
 	private List<ObserverCustom> unsubscribers;
 	
@@ -32,6 +35,41 @@ public class PublisherImplementation implements PublisherInterface {
 		System.out.println(pfixLog + "Subsriber ArrayList initialized");			
 
 	}
+	
+	private Event generateEvent(int i) {
+		int eventData = ThreadLocalRandom.current().nextInt(1, MAX_RANDOMIZATION + 1);
+		return new Event(i, eventData);
+	}
+	
+	/**
+	 * for 200 iterations
+	 * Create an event -- event number is the iteration number, data is a random number between 1-5000
+	 * Notify all registered observers of the event
+	 * If the SubscriberOdds.notifyObserver returns true more than 20 times, unregister the observer
+	 * If the SubscriberThrees.notifyObserver returned true more than 6 times, unregister the observer
+	 * For iteration 40, 80, 120, 160, 200:
+	 * register SubscriberOdds if it is unregistered
+	 * register SubscriberThrees if it is unregistered
+	 */
+	public void runSimulation() {
+		
+		PublisherImplementation pub = new PublisherImplementation();
+		SubscriberEvens nEvens = new SubscriberEvens();
+		SubscriberOdds nOdds = new SubscriberOdds();
+		SubscriberThrees nThrees = new SubscriberThrees();
+		Event e;
+
+		// register observers
+		pub.registerObserver(nEvens);
+		pub.registerObserver(nOdds);
+		pub.registerObserver(nThrees);
+		
+		for (int i =0; i < ITERATIONS; i++) {
+			e = generateEvent(i);
+		}
+
+	}
+	
 	
 	@Override
 	public void registerObserver(ObserverCustom o) {

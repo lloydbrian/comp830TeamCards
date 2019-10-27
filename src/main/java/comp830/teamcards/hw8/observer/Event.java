@@ -11,11 +11,35 @@ package comp830.teamcards.hw8.observer;
  * Valerie Therrien 2019
  *
  */
-public interface Event {
+public class Event {
 	
-	public void setEventName();
-	public String getEventName();
-	public int getEventData();
-	public int getEventNumber();
+	private int eventNumber;
+	private int eventData;
+	
+	public Event(int eventNumber, int eventData) {
+		this.setEventNumber(eventNumber);
+		this.setEventData(eventData);
+	}
+	
+	/**
+	 * @param eventNumber the eventNumber to set
+	 */
+	public void setEventNumber(int eventNumber) {
+		this.eventNumber = eventNumber;
+	}
+
+	/**
+	 * @param eventData the eventData to set
+	 */
+	public void setEventData(int eventData) {
+		this.eventData = eventData;
+	}
+
+	public int getEventData() {
+		return eventData;
+	}
+	public int getEventNumber() {
+		return eventNumber;
+	}
 
 }
