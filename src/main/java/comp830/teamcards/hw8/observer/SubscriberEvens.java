@@ -17,6 +17,7 @@ public class SubscriberEvens implements ObserverCustom {
 	private String obName;
 	private static String className = "";
 	private static String pfixLog  = "";
+	private int countTrueEvens = 0;
 	
 	public SubscriberEvens() {
 		className = this.getClass().getName();
@@ -73,6 +74,11 @@ public class SubscriberEvens implements ObserverCustom {
 	@Override
 	public String getObserverName() {
 		return obName;
+	}
+
+	@Override
+	public void resetCounter() {
+		//blank implementation
 	}
 	
 }

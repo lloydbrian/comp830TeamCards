@@ -41,6 +41,20 @@ public class SubscriberOdds implements ObserverCustom {
 		return myPublisher;
 	}
 
+	/**
+	 * @return the countTrueOdds
+	 */
+	public int getCountTrueOdds() {
+		return countTrueOdds;
+	}
+
+	/**
+	 * @param countTrueOdds the countTrueOdds to set
+	 */
+	private void setCountTrueOdds(int countTrueOdds) {
+		this.countTrueOdds = countTrueOdds;
+	}
+
 	public void removeMeFromPublisher() {
 		myPublisher.removeObserver(this);
 	}
@@ -81,5 +95,10 @@ public class SubscriberOdds implements ObserverCustom {
 	@Override
 	public String getObserverName() {
 		return obName;
+	}
+
+	@Override
+	public void resetCounter() {
+		setCountTrueOdds(0);		
 	}
 }

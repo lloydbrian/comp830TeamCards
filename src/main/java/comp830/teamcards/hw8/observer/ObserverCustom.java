@@ -15,4 +15,5 @@ public interface ObserverCustom {
 	public boolean notifyObserver(Event e);
 	public void setObserverName(String ob);
 	public String getObserverName();
+	public void resetCounter();
 }

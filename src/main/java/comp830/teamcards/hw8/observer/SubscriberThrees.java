@@ -34,6 +34,21 @@ public class SubscriberThrees implements ObserverCustom {
 		// subscriber registers to the publisher
 		myPublisher.registerObserver(this);
 	}
+
+
+	/**
+	 * @return the countTrueOdds
+	 */
+	public int getCountTrueOdds() {
+		return countTrueThrees;
+	}
+
+	/**
+	 * @param countTrueOdds the countTrueOdds to set
+	 */
+	private void setCountTrueOdds(int countTrueOdds) {
+		this.countTrueThrees = countTrueOdds;
+	}
 	
 	/**
 	 * @return the myPublisher
@@ -83,6 +98,11 @@ public class SubscriberThrees implements ObserverCustom {
 	@Override
 	public String getObserverName() {
 		return obName;
+	}
+
+	@Override
+	public void resetCounter() {
+		setCountTrueOdds(0);
 	}
 	
 }
