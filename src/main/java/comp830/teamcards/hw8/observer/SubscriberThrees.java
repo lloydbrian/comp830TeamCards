@@ -17,7 +17,9 @@ public class SubscriberThrees implements ObserverCustom {
 	private String obName;
 	private static String className = "";
 	private static String pfixLog  = "";
-	
+	private static final int UNREGISTER_THREES_REACHED_LIMIT = 6;
+	private int countTrueThrees = 0;
+
 	
 	public SubscriberThrees() {
 		className = this.getClass().getName();
@@ -32,11 +34,6 @@ public class SubscriberThrees implements ObserverCustom {
 		// subscriber registers to the publisher
 		myPublisher.registerObserver(this);
 	}
-
-	public void removeMeFromPublisher() {
-		myPublisher.removeObserver(this);
-	}
-	
 	
 	/**
 	 * @return the myPublisher
@@ -45,6 +42,11 @@ public class SubscriberThrees implements ObserverCustom {
 		return myPublisher;
 	}
 
+
+	public void removeMeFromPublisher() {
+		myPublisher.removeObserver(this);
+	}
+	
 	/**
 	 * @param myPublisher the myPublisher to set
 	 */
@@ -54,14 +56,23 @@ public class SubscriberThrees implements ObserverCustom {
 	
 	@Override
 	public boolean notifyObserver(Event e) {
+		boolean result = false;
 		// check for even
 		if(e.getEventData() % 3 == 0) {
 			System.out.println(pfixLog + "Event Number:" + e.getEventNumber() + " is DIVISIBLE BY 3. Event Data Processed: " + e.getEventData() );
-			return true;
+			countTrueThrees++;
+			result = true;
 		} else {
-			System.out.println(pfixLog + "Event Number:" + e.getEventNumber() + " is NOT DIVISIBLE BY 3. Event Data Processed: " + e.getEventData() );
-			return false;
+			result = false;
 		}		
+
+		if(countTrueThrees > UNREGISTER_THREES_REACHED_LIMIT) {
+			System.out.println(pfixLog + "Reached Limit: " + UNREGISTER_THREES_REACHED_LIMIT + ". Unregistering...");	
+			System.out.println("");
+			removeMeFromPublisher();
+		}
+		
+		return result;
 	}
 
 	@Override

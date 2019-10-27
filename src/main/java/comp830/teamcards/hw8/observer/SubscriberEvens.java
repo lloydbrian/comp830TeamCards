@@ -52,14 +52,17 @@ public class SubscriberEvens implements ObserverCustom {
 	
 	@Override
 	public boolean notifyObserver(Event e) {
+		boolean result = false;
+		
 		// check for even
 		if(e.getEventData() % 2 == 0) {
 			System.out.println(pfixLog + "Event Number:" + e.getEventNumber() + " is EVEN. Event Data Processed: " + e.getEventData() );
-			return true;
+			result = true;
 		} else {
-			System.out.println(pfixLog + "Event Number:" + e.getEventNumber() + " is NOT EVEN. Event Data Processed: " + e.getEventData() );
-			return false;
-		}		
+			result = false;
+		}
+		
+		return result;
 	}
 
 	@Override

@@ -6,6 +6,8 @@ package comp830.teamcards.hw8.observer;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * 
@@ -22,12 +24,8 @@ public class PublisherImplementation implements PublisherInterface {
 
 	private static final int ITERATIONS = 200;
 	private static final int MAX_RANDOMIZATION = 5000;
-	private static final int UNREGISTER_ODDS_REACHED_LIMIT = 20;
-	private static final int UNREGISTER_THREES_REACHED_LIMIT = 6;
-	private static final int[] UNREGISTER_ODDS_EVENS = {40, 80, 120, 160, 200};
-	private int countTrueOdds = 0;
-	private int countTrueThrees= 0 ;
-
+	//private static final int[] REGISTER_ODDS_EVENS = {40, 80, 120, 160, 200};
+	private static Set<Integer> registerOddsEvens = new HashSet<Integer>();
 	
 	private static String className = "";
 	private static String pfixLog  = "";
@@ -36,6 +34,11 @@ public class PublisherImplementation implements PublisherInterface {
 	public PublisherImplementation() {		
 		subscribers = new ArrayList<>();
 		unsubscribers = new ArrayList<>();
+		registerOddsEvens.add(40);
+		registerOddsEvens.add(80);
+		registerOddsEvens.add(120);
+		registerOddsEvens.add(160);
+		registerOddsEvens.add(200);
 
 		className = this.getClass().getName();
 		pfixLog = "[" + className + "]: ";
@@ -62,55 +65,36 @@ public class PublisherImplementation implements PublisherInterface {
 		for (int i =0; i < ITERATIONS; i++) {
 			Event e = generateEvent(i);
 			notifyObservers(e);
+			
+			if(registerOddsEvens.contains(i)) {
+				System.out.println(pfixLog + "Iterator count matched" + i);
+				
+				
+			}
+			
 		}
 
-		cleanUp();		
 	}	
-	
-	private void cleanUp() {
-		// clean-up
-		System.out.println(countTrueThrees + " " + UNREGISTER_THREES_REACHED_LIMIT);
-		System.out.println(subscribers.size());
 		
-		for (ObserverCustom subsc : subscribers) {
-			System.out.println(subsc);
-			
-			if ((subsc instanceof SubscriberOdds) && (countTrueOdds > UNREGISTER_ODDS_REACHED_LIMIT)) {
-				System.out.println(pfixLog + "ODDS Reached Limit. D-registering: " + subsc.getObserverName());
-				((SubscriberOdds)subsc).removeMeFromPublisher();
-				//removeObserver(subsc);
-			}
-			
-			
-			if ((subsc instanceof SubscriberThrees) && (countTrueThrees > UNREGISTER_THREES_REACHED_LIMIT)) {
-				System.out.println("REACHED");
-				System.out.println(pfixLog + "THREES Reached Limit. D-registering: " + subsc.getObserverName());	
-				((SubscriberThrees)subsc).removeMeFromPublisher();
-				//removeObserver(subsc);
-			}
-
-			System.out.println("Size" + subscribers.size());
-
-		}		
-	}
-	
 	@Override
 	public void registerObserver(ObserverCustom o) {
 		if(o != null) {
-			subscribers.add(o);
-			System.out.println(pfixLog + "Registration successful for: " + o.getObserverName());
+			int j = subscribers.indexOf(o);
+			if (j < 0) {
 
-			// check unsubscriber list and remove since it is already added
-			/* Commented out 1 to 1 subscribe and unsubscribe as rules may be different
-			 * See RunHW8 for homework simulation rules.
-			 * 
-			int i = unsubscribers.indexOf(o);
-			if (i >= 0) {
-				unsubscribers.remove(i);
-				System.out.println(pfixLog + o.getObserverName() + " has been removed from the unsubscribed list.");							
+				subscribers.add(o);
+				System.out.println(pfixLog + "Registration successful for: " + o.getObserverName());
+				
+				// check unsubscribe list and remove since it is already added
+				int i = unsubscribers.indexOf(o);
+				if (i >= 0) {
+					unsubscribers.remove(i);
+					System.out.println(pfixLog + o.getObserverName() + " has been REMOVED FROM THE UNSUBSCRIBED list.");							
+				}
+			} else {
+				System.out.println(pfixLog + o.getObserverName() + " IS already in the SUBSCRIBER LIST.");							
+				
 			}
-			*
-			*/						
 			
 		}
 	}
@@ -118,20 +102,17 @@ public class PublisherImplementation implements PublisherInterface {
 	@Override
 	public void removeObserver(ObserverCustom o) {
 		if(o != null) {
-			System.out.println(o.getClass());
 			int i = subscribers.indexOf(o);
-			System.out.println(o.getClass() + " " + i);
 			if (i >= 0) {
 				subscribers.remove(i);
 				System.out.println(pfixLog + "De-Registration successful for: " + o.getObserverName());	
 				
 				// add observer to the unsubscribed list
-				/* Commented out 1 to 1 subscribe and unsubscribe as rules may be different
-				 * See RunHW8 for homework simulation rules.
 				unsubscribers.add(o);
-				System.out.println(pfixLog + o.getObserverName() + " has been added from the unsubscribed list.");
-				*
-				*/							
+				System.out.println(pfixLog + o.getObserverName() + " has been ADDED TO THE UNSUBSCRIBED list.");
+			} else {
+				System.out.println(pfixLog + "Cannot De-Register. Observer is not in the list. " + o.getObserverName());	
+				
 			}
 		}
 	}
@@ -140,13 +121,9 @@ public class PublisherImplementation implements PublisherInterface {
 	public boolean notifyObservers(Event e) {
 		boolean notifyResult = false;
 		
-		if(e != null) {			
-			for(ObserverCustom sub : subscribers) {				
-				notifyResult = sub.notifyObserver(e);
-				
-				if((sub instanceof SubscriberOdds) && (notifyResult)) countTrueOdds++;
-				if((sub instanceof SubscriberThrees) && (notifyResult)) countTrueThrees++;
-				
+		if(e != null) {
+			for(int i = 0; i < subscribers.size(); i++) {
+				subscribers.get(i).notifyObserver(e);
 			}
 		}
 		

@@ -17,8 +17,8 @@ public class SubscriberOdds implements ObserverCustom {
 	private String obName;
 	private static String className = "";
 	private static String pfixLog  = "";
-	
-	private int countTrue = 0;
+	private static final int UNREGISTER_ODDS_REACHED_LIMIT = 20;
+	private int countTrueOdds = 0;
 	
 	public SubscriberOdds() {
 		className = this.getClass().getName();
@@ -54,15 +54,23 @@ public class SubscriberOdds implements ObserverCustom {
 
 	@Override
 	public boolean notifyObserver(Event e) {
+		boolean result = false;
+		
 		// check for odd
 		if(e.getEventData() % 2 == 1) {
 			System.out.println(pfixLog + "Event Number:" + e.getEventNumber() + " is ODD. Event Data Processed: " + e.getEventData() );
-			countTrue++;
-			return true;
+			countTrueOdds++;
+			result = true;
 		} else {
-			System.out.println(pfixLog + "Event Number:" + e.getEventNumber() + " is not ODD. Event Data Processed: " + e.getEventData() );
-			return false;
-		}		
+			result = false;
+		}
+
+		if(countTrueOdds > UNREGISTER_ODDS_REACHED_LIMIT) {
+			System.out.println(pfixLog + "Reached Limit: " + UNREGISTER_ODDS_REACHED_LIMIT + ". Unregistering...");
+			System.out.println("");
+			removeMeFromPublisher();
+		}
+		return result;
 	}
 
 	@Override

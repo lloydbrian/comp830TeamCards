@@ -25,16 +25,6 @@ public class RunHW8 {
 		ObserverCustom subOdd = new SubscriberOdds(publisher);
 		ObserverCustom subThree = new SubscriberThrees(publisher);
 		
-		// these lines also work as a replacement of the above
-		/*
-		ObserverCustom subEven = new SubscriberEvens();
-		ObserverCustom subOdd = new SubscriberOdds();
-		ObserverCustom subThree = new SubscriberThrees();
-		publisher.registerObserver(subEven);
-		publisher.registerObserver(subOdd);
-		publisher.registerObserver(subThree);
-		*/
-		
 		publisher.runSimulation();
 		
 		
