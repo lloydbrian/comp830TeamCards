@@ -12,9 +12,12 @@ package comp830.teamcards.hw8.observer;
  */
 public class SubscriberThrees implements ObserverCustom {
 
+	private PublisherImplementation myPublisher;
+	
 	private String obName;
 	private static String className = "";
 	private static String pfixLog  = "";
+	
 	
 	public SubscriberThrees() {
 		className = this.getClass().getName();
@@ -22,15 +25,41 @@ public class SubscriberThrees implements ObserverCustom {
 		obName = className;
 	}
 
+	public SubscriberThrees(PublisherImplementation myPublisher) {
+		this();
+		this.setMyPublisher(myPublisher);
+		
+		// subscriber registers to the publisher
+		myPublisher.registerObserver(this);
+	}
+
+	public void removeMeFromPublisher() {
+		myPublisher.removeObserver(this);
+	}
+	
+	
+	/**
+	 * @return the myPublisher
+	 */
+	public PublisherImplementation getMyPublisher() {
+		return myPublisher;
+	}
+
+	/**
+	 * @param myPublisher the myPublisher to set
+	 */
+	public void setMyPublisher(PublisherImplementation myPublisher) {
+		this.myPublisher = myPublisher;
+	}
 	
 	@Override
 	public boolean notifyObserver(Event e) {
 		// check for even
 		if(e.getEventData() % 3 == 0) {
-			System.out.println(pfixLog + "Event " + e.getEventNumber() + "is divisible by 3: " + e.getEventData() );
+			System.out.println(pfixLog + "Event Number:" + e.getEventNumber() + " is DIVISIBLE BY 3. Event Data Processed: " + e.getEventData() );
 			return true;
 		} else {
-			System.out.println(pfixLog + "Event " + e.getEventNumber() + "is not odd: " + e.getEventData() );
+			System.out.println(pfixLog + "Event Number:" + e.getEventNumber() + " is NOT DIVISIBLE BY 3. Event Data Processed: " + e.getEventData() );
 			return false;
 		}		
 	}

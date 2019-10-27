@@ -14,5 +14,5 @@ public interface PublisherInterface {
 	
 	public void registerObserver(ObserverCustom o);
 	public void removeObserver(ObserverCustom o);
-	public void notifyObservers(ObserverCustom o);
+	public boolean notifyObservers(Event e);
 }
