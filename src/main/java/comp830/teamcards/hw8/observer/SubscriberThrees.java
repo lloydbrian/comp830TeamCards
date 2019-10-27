@@ -82,8 +82,8 @@ public class SubscriberThrees implements ObserverCustom {
 		}		
 
 		if(countTrueThrees > UNREGISTER_THREES_REACHED_LIMIT) {
-			System.out.println(pfixLog + "Reached Limit: " + UNREGISTER_THREES_REACHED_LIMIT + ". Unregistering...");	
 			System.out.println("");
+			System.out.println(pfixLog + "Reached Limit: " + UNREGISTER_THREES_REACHED_LIMIT + ". Unregistering...");	
 			removeMeFromPublisher();
 		}
 		

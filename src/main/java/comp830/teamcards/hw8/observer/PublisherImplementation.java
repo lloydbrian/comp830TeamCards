@@ -67,6 +67,7 @@ public class PublisherImplementation implements PublisherInterface {
 			notifyObservers(e);
 			
 			if(registerOddsThrees.contains(i)) {
+				System.out.println();
 				System.out.println(pfixLog + "Iterator count matched " + i + ". Attempt to register back...executing. ");
 				registerObserver();
 			}
@@ -90,7 +91,7 @@ public class PublisherImplementation implements PublisherInterface {
 				// add mechanism to restart count for the simulation
 				o.resetCounter();
 				subscribers.add(o);
-				System.out.println(pfixLog + "Registration successful for: " + o.getObserverName());
+				System.out.println(pfixLog + "REGISTRATION SUCCESSFUL for: " + o.getObserverName());
 				
 				// check unsubscribe list and remove since it is already added
 				int i = unsubscribers.indexOf(o);

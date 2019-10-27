@@ -80,8 +80,8 @@ public class SubscriberOdds implements ObserverCustom {
 		}
 
 		if(countTrueOdds > UNREGISTER_ODDS_REACHED_LIMIT) {
-			System.out.println(pfixLog + "Reached Limit: " + UNREGISTER_ODDS_REACHED_LIMIT + ". Unregistering...");
 			System.out.println("");
+			System.out.println(pfixLog + "Reached Limit: " + UNREGISTER_ODDS_REACHED_LIMIT + ". Unregistering...");
 			removeMeFromPublisher();
 		}
 		return result;
