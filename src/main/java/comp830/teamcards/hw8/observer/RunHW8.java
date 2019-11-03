@@ -27,8 +27,6 @@ public class RunHW8 {
 		
 		publisher.runSimulation();
 		
-		
-		
 	}
 
 }
